@@ -22,6 +22,10 @@ abstract class Red_FileIO {
 			include dirname( dirname( __FILE__ ) ).'/fileio/nginx.php';
 			$exporter = new Red_Nginx_File();
 		}
+		elseif ( $type === '404' ) {
+            include dirname( dirname( __FILE__ ) ).'/fileio/404.php';
+            $exporter = new Red_404_File();
+        }
 
 		return $exporter;
 	}

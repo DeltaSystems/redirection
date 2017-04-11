@@ -74,6 +74,24 @@ class Red_Item {
 		return $items;
 	}
 
+	static function get_all_for_type ( $type ) {
+	    global $wpdb;
+
+	    $rows = array();
+	    if ( $type === '404' ) {
+            $rows = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}redirection_404" );
+        }
+
+        $items = array();
+        if ( count( $rows ) > 0 ) {
+            foreach ( $rows as $row ) {
+                $items[] = new Red_404( $row );
+            }
+        }
+
+        return $items;
+    }
+
 	static function get_for_url( $url, $type ) {
 		global $wpdb;
 
@@ -483,4 +501,14 @@ class Red_Item {
 	public function get_action_data() {
 		return $this->action_data;
 	}
+}
+
+class Red_404 {
+
+    function __construct( $values ) {
+
+        foreach ( $values as $key => $value ) {
+            $this->$key = $value;
+        }
+    }
 }

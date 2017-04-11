@@ -174,9 +174,17 @@ class Redirection_Admin {
 			$options = red_get_options();
 
 			if ( $_GET['token'] === $options['token'] && !empty( $options['token'] ) ) {
-				$items = Red_Item::get_all_for_module( intval( $_GET['module'] ) );
 
-				$exporter = Red_FileIO::create( 'rss' );
+			    if ( isset($_GET['type']) && $_GET['type'] === '404' ) {
+			        $type  = $_GET['type'];
+			        $items = Red_Item::get_all_for_type($type);
+                } else {
+			        $type  = 'rss';
+                    $items = Red_Item::get_all_for_module( intval( $_GET['module'] ) );
+                }
+
+				$exporter = Red_FileIO::create( $type );
+
 				$exporter->export( $items );
 				die();
 			}
